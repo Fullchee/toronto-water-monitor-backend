@@ -33,6 +33,7 @@ const validateBody = {
 };
 
 export async function getWaterData() {
+  console.log("Getting water data");
   const {
     data: { validateResponse },
   } = await axios({
@@ -41,14 +42,6 @@ export async function getWaterData() {
     timeout: 4000,
     data: validateBody,
   });
-  const result = await axios({
-    method: "post",
-    url: validateURL,
-    timeout: 4000,
-    data: validateBody,
-  });
-
-  console.log(result.data);
   if (!validateResponse || !validateResponse.refToken) {
     console.error("Request to get refToken failed!");
     console.error(validateResponse);
@@ -122,3 +115,5 @@ function daysAgo(days: number): Date {
 function formatDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
+
+getWaterData();
