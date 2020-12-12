@@ -34,17 +34,28 @@ const validateBody = {
 
 export async function getWaterData() {
   const {
-    data: {
-      validateResponse: { refToken },
-    },
+    data: { validateResponse },
   } = await axios({
     method: "post",
     url: validateURL,
     timeout: 4000,
     data: validateBody,
   });
-  const miuList = await getMIU(refToken);
+  const result = await axios({
+    method: "post",
+    url: validateURL,
+    timeout: 4000,
+    data: validateBody,
+  });
 
+  console.log(result.data);
+  if (!validateResponse || !validateResponse.refToken) {
+    console.error("Request to get refToken failed!");
+    console.error(validateResponse);
+    process.exit(1);
+  }
+  const refToken = validateResponse.refToken;
+  const miuList = await getMIU(refToken);
   miuList.forEach(async (miu) => {
     const {
       data: {
