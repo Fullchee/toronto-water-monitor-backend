@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc --project ./",
+    "build-ts": "tsc --project ./",
+    "start": "nodemon index.ts",
+    "serve": "node build/index.js",
+    "test": "jest index.ts",
+    "//": "heroku does npm install",
+    "postinstall": "npm run build-ts",
+    "watch-node": "nodemon build/index.js",
+    "watch-ts": "tsc -w"
+  },
+  "author": "Fullchee Zhang <fullchee@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "typescript": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.9",
+    "@types/node": "^14.14.10",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1",
+    "supertest": "^6.0.1",
+    "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.0"
+  },
+  "engines": {
+    "node": "14.x"
+  }
+}
