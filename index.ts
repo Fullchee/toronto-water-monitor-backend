@@ -1,8 +1,13 @@
 import express from "express";
-require("dotenv").config();
+import cors from "cors";
+
+const PORT = process.env.PORT || 8000;
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
 app.get("/", (req, res) => res.send("Express + TypeScript Server"));
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);

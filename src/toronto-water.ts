@@ -1,5 +1,5 @@
 import axios from "axios";
-import { sendMail } from "./mailer";
+import { sendMail } from "./mailer/mailer";
 
 require("dotenv").config();
 

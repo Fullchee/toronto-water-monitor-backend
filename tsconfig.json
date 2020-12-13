@@ -7,7 +7,5 @@
     "esModuleInterop": true,
     "strict": true
   },
-  "exclude": [
-    "src/**/*.test.ts"
-  ]
+  "exclude": ["src/**/*.test.ts"]
 }
