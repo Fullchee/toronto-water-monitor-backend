@@ -26,35 +26,40 @@ interface Meter {
   [x: string]: any;
 }
 
-export function getRefToken(data: Account): Promise<string> {
+export function getRefToken(account: Account): Promise<string> {
   return new Promise(async (resolve, reject) => {
-    console.log("Getting water data");
     const validateURL =
       "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/validate";
-    const {
-      data: { validateResponse },
-    } = await axios({
+    const res: any = await axios({
       method: "post",
       url: validateURL,
       timeout: 4000,
       data: {
-        ACCOUNT_NUMBER: data.accountNumber,
+        ACCOUNT_NUMBER: account.accountNumber,
         API_OP: "VALIDATE",
-        LAST_NAME: data.lastName,
-        POSTAL_CODE: data.postalCode,
-        LAST_PAYMENT_METHOD: data.paymentMethod,
+        LAST_NAME: account.lastName,
+        POSTAL_CODE: account.postalCode,
+        LAST_PAYMENT_METHOD: account.paymentMethod,
       },
     });
-    if (!validateResponse || !validateResponse.refToken) {
-      console.error("Request to get refToken failed!");
+    if (res.path! === "/ext/error/something-went-wrong.html") {
+      console.error("Unable to get refToken from toronto.ca!");
       reject();
+      return;
+    } else if (!res.data.validateResponse?.refToken) {
+      console.log(
+        "Unable to get refToken from toronto.ca but didn't get redirected"
+      );
+      reject();
+      return;
     }
-    resolve(validateResponse.refToken);
+    resolve(res.data.validateResponse.refToken);
   });
 }
 
 export async function getWaterData() {
   // TODO: make this function accept dynamic data
+  console.log("Getting water data for: ");
   const validateBody: Account = {
     accountNumber: process.env.WATER_ACCOUNT_NUMBER!,
     email: "fullchee@gmail.com",

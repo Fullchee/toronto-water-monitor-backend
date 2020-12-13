@@ -16,23 +16,29 @@ app.listen(PORT, () => {
 });
 
 app.post("/create-account", async (req, res) => {
-  if (getRefToken(req.body)) {
-    createAccount(req.body)
-      .then(() => {
-        res.status(201).send("Account successfully created!");
-      })
-      .catch((err) => {
-        throw err;
-      });
-  } else {
+  try {
+    await getRefToken(req.body);
+  } catch (err) {
     res
-      .status(400)
-      .send("Invalid data provided. Check that it works at MyWaterToronto.");
+      .status(500)
+      .send("Unable to get ref token. Check that it works at MyWaterToronto.");
+    return;
   }
+  createAccount(req.body)
+    .then(() => {
+      res.status(201).send("Account successfully created!");
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 app.post("/delete-account", async (req, res) => {
   const { email } = req.body;
-  await deleteAccount(email);
-  res.status(200).send("Account successfully deleted");
+  try {
+    await deleteAccount(email);
+    res.status(200).send("Account successfully deleted");
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
