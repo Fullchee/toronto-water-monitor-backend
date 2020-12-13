@@ -8,7 +8,7 @@ interface Account {
   postalCode: string;
 }
 
-export const addAccount = ({
+export const createAccount = ({
   accountName,
   accountNumber,
   email,
@@ -16,8 +16,9 @@ export const addAccount = ({
   postalCode,
 }: Account): Promise<string> => {
   return new Promise(function (resolve, reject) {
+    console.log("Account number", accountNumber);
     pool.query(
-      "INSERT INTO account (accountNumber, accountName, email, paymentMethod, postalCode) VALUES ($1, $2)",
+      "INSERT INTO account (accountNumber, accountName, email, paymentMethod, postalCode) VALUES ($1, $2, $3, $4, $5)",
       [accountNumber, accountName, email, paymentMethod, postalCode],
       (error) => {
         if (error) {
@@ -29,7 +30,7 @@ export const addAccount = ({
   });
 };
 
-export const deleteEmail = (email: string): Promise<string> => {
+export const deleteAccount = (email: string): Promise<string> => {
   return new Promise(function (resolve, reject) {
     pool.query("DELETE FROM account WHERE email = $1", [email], (error) => {
       if (error) {

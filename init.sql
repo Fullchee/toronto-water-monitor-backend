@@ -1,5 +1,3 @@
-CREATE DATABASE IF NOT EXISTS "account_api"
-
 DROP TABLE IF EXISTS account;
 
 CREATE TABLE account (
@@ -7,7 +5,6 @@ CREATE TABLE account (
     
     accountName varchar(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    paymentMethod int NOT NULL
-    postalCode VARCHAR(255) NOT NULL,
-)
-
+    paymentMethod int NOT NULL,
+    postalCode VARCHAR(255) NOT NULL
+);

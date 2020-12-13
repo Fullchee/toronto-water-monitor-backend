@@ -2,6 +2,12 @@ import nodemailer from "nodemailer";
 import { getEmailMessage } from "./email-messages";
 require("dotenv").config();
 
+interface Day {
+  intStartDate: string;
+  intConsumptionTotal: number;
+  [x: string]: any;
+}
+
 interface MessageOptions {
   day: Day;
 }

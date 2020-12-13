@@ -1,7 +1,13 @@
 import axios from "axios";
-import { sendMail } from "./mailer/mailer";
+import { sendMail } from "../mailer/mailer";
 
 require("dotenv").config();
+
+interface Day {
+  intStartDate: string;
+  intConsumptionTotal: number;
+  [x: string]: any;
+}
 
 interface Premise {
   meterList: Meter[];
@@ -110,4 +116,7 @@ function formatDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
-getWaterData();
+export function validateData(data: Account): boolean {
+  return false;
+}
+
