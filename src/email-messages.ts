@@ -8,7 +8,7 @@ interface Day {
 type MessageType = "overuse";
 type EmailFormat = "html" | "text";
 
-export async function getEmailMessage(
+export function getEmailMessage(
   type: MessageType,
   format: EmailFormat,
   day: Day

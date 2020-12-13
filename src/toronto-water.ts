@@ -3,12 +3,6 @@ import { sendMail } from "./mailer";
 
 require("dotenv").config();
 
-interface Day {
-  intStartDate: string;
-  intConsumptionTotal: number;
-  [x: string]: any;
-}
-
 interface Premise {
   meterList: Meter[];
   [x: string]: any;
@@ -69,9 +63,9 @@ export async function getWaterData() {
     intervalList.forEach((day: Day) => {
       console.log(day);
       const waterUsed = day.intConsumptionTotal;
+      // TODO: make the 3 dynamic
       if (waterUsed >= 3) {
-        // TODO: what do I do with the water usage data?
-        console.log(day);
+        sendMail("fullchee@gmail.com", { day: day });
       }
     });
   });

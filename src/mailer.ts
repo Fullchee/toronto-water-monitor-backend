@@ -3,8 +3,7 @@ import { getEmailMessage } from "./email-messages";
 require("dotenv").config();
 
 interface MessageOptions {
-  toAddress: string;
-  waterUsage: number;
+  day: Day;
 }
 
 const transporter = nodemailer.createTransport({
@@ -22,6 +21,6 @@ export async function sendMail(toAddress: string, options: MessageOptions) {
     to: toAddress,
     subject: "Potential water leak",
     text: "Plaintext version of the message",
-    html: getEmailMessage(),
+    html: getEmailMessage("overuse", "html", options.day),
   });
 }
