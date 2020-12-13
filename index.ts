@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { createAccount, deleteAccount } from "./src/psql/db-operations";
-import { validateData } from "./src/toronto-water/toronto-water";
+import { getRefToken } from "./src/toronto-water/toronto-water";
 
 const PORT = process.env.PORT || 8000;
 
@@ -16,7 +16,7 @@ app.listen(PORT, () => {
 });
 
 app.post("/create-account", async (req, res) => {
-  if (validateData(req.body)) {
+  if (getRefToken(req.body)) {
     createAccount(req.body)
       .then(() => {
         res.status(201).send("Account successfully created!");
@@ -27,9 +27,7 @@ app.post("/create-account", async (req, res) => {
   } else {
     res
       .status(400)
-      .send(
-        "Invalid data provided. Check to make sure it works at MyWaterToronto."
-      );
+      .send("Invalid data provided. Check that it works at MyWaterToronto.");
   }
 });
 

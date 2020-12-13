@@ -3,6 +3,14 @@ import { sendMail } from "../mailer/mailer";
 
 require("dotenv").config();
 
+interface Account {
+  accountNumber: string;
+  email: string;
+  lastName: string;
+  paymentMethod: number;
+  postalCode: string;
+}
+
 interface Day {
   intStartDate: string;
   intConsumptionTotal: number;
@@ -18,36 +26,47 @@ interface Meter {
   [x: string]: any;
 }
 
-const validateURL =
-  "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/validate";
-const consumptionURL =
-  "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/consumption";
-
-const validateBody = {
-  API_OP: "VALIDATE",
-  ACCOUNT_NUMBER: process.env.WATER_ACCOUNT_NUMBER,
-  LAST_NAME: process.env.WATER_LAST_NAME,
-  POSTAL_CODE: process.env.WATER_POSTAL_CODE,
-  LAST_PAYMENT_METHOD: process.env.WATER_LAST_PAYMENT_METHOD,
-};
+export function getRefToken(data: Account): Promise<string> {
+  return new Promise(async (resolve, reject) => {
+    console.log("Getting water data");
+    const validateURL =
+      "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/validate";
+    const {
+      data: { validateResponse },
+    } = await axios({
+      method: "post",
+      url: validateURL,
+      timeout: 4000,
+      data: {
+        ACCOUNT_NUMBER: data.accountNumber,
+        API_OP: "VALIDATE",
+        LAST_NAME: data.lastName,
+        POSTAL_CODE: data.postalCode,
+        LAST_PAYMENT_METHOD: data.paymentMethod,
+      },
+    });
+    if (!validateResponse || !validateResponse.refToken) {
+      console.error("Request to get refToken failed!");
+      reject();
+    }
+    resolve(validateResponse.refToken);
+  });
+}
 
 export async function getWaterData() {
-  console.log("Getting water data");
-  const {
-    data: { validateResponse },
-  } = await axios({
-    method: "post",
-    url: validateURL,
-    timeout: 4000,
-    data: validateBody,
-  });
-  if (!validateResponse || !validateResponse.refToken) {
-    console.error("Request to get refToken failed!");
-    console.error(validateResponse);
-    process.exit(1);
-  }
-  const refToken = validateResponse.refToken;
+  // TODO: make this function accept dynamic data
+  const validateBody: Account = {
+    accountNumber: process.env.WATER_ACCOUNT_NUMBER,
+    email: "fullchee@gmail.com",
+    lastName: process.env.WATER_LAST_NAME,
+    paymentMethod: parseInt(process.env.WATER_LAST_PAYMENT_METHOD),
+    postalCode: process.env.WATER_POSTAL_CODE,
+  };
+  const refToken = await getRefToken(validateBody);
   const miuList = await getMIU(refToken);
+  const consumptionURL =
+    "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/consumption";
+
   miuList.forEach(async (miu) => {
     const {
       data: {
@@ -115,8 +134,3 @@ function daysAgo(days: number): Date {
 function formatDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
-
-export function validateData(data: Account): boolean {
-  return false;
-}
-

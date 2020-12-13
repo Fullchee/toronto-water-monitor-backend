@@ -5,9 +5,9 @@ interface Day {
 }
 
 interface Account {
-  accountName: string;
   accountNumber: string;
   email: string;
+  lastName: string;
   paymentMethod: number;
   postalCode: string;
 }

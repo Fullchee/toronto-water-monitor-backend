@@ -7,10 +7,10 @@ describe("db-operations tests", () => {
     expect(
       await createAccount({
         accountNumber: process.env.WATER_ACCOUNT_NUMBER,
-        accountName: process.env.WATER_LAST_NAME,
+        email: "email@example.com",
+        lastName: process.env.WATER_LAST_NAME,
         paymentMethod: parseInt(process.env.WATER_LAST_PAYMENT_METHOD),
         postalCode: process.env.WATER_POSTAL_CODE,
-        email: "email@example.com",
       })
     ).toEqual("email@example.com");
   });
