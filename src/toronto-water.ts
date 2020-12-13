@@ -1,13 +1,12 @@
 import axios from "axios";
+import { sendMail } from "./mailer";
 
 require("dotenv").config();
 
 interface Day {
   intStartDate: string;
   intConsumptionTotal: number;
-  intConsumptionMin: number;
-  intConsumptionMax: number;
-  intConsumptionAvg: number;
+  [x: string]: any;
 }
 
 interface Premise {
@@ -68,6 +67,7 @@ export async function getWaterData() {
       },
     });
     intervalList.forEach((day: Day) => {
+      console.log(day);
       const waterUsed = day.intConsumptionTotal;
       if (waterUsed >= 3) {
         // TODO: what do I do with the water usage data?
