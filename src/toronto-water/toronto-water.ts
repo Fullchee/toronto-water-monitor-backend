@@ -56,11 +56,11 @@ export function getRefToken(data: Account): Promise<string> {
 export async function getWaterData() {
   // TODO: make this function accept dynamic data
   const validateBody: Account = {
-    accountNumber: process.env.WATER_ACCOUNT_NUMBER,
+    accountNumber: process.env.WATER_ACCOUNT_NUMBER!,
     email: "fullchee@gmail.com",
-    lastName: process.env.WATER_LAST_NAME,
-    paymentMethod: parseInt(process.env.WATER_LAST_PAYMENT_METHOD),
-    postalCode: process.env.WATER_POSTAL_CODE,
+    lastName: process.env.WATER_LAST_NAME!,
+    paymentMethod: parseInt(process.env.WATER_LAST_PAYMENT_METHOD!),
+    postalCode: process.env.WATER_POSTAL_CODE!,
   };
   const refToken = await getRefToken(validateBody);
   const miuList = await getMIU(refToken);
