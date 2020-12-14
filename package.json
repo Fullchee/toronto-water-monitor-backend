@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc --project ./",
     "build-ts": "tsc --project ./",
+    "deploy": "git push heroku master",
     "start": "nodemon index.ts",
     "serve": "node build/index.js",
     "test": "jest",
