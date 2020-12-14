@@ -9,7 +9,7 @@ describe("db-operations tests", () => {
         accountNumber: process.env.WATER_ACCOUNT_NUMBER,
         email: "email@example.com",
         lastName: process.env.WATER_LAST_NAME,
-        paymentMethod: parseInt(process.env.WATER_LAST_PAYMENT_METHOD),
+        paymentMethod: parseFloat(process.env.WATER_LAST_PAYMENT_METHOD),
         postalCode: process.env.WATER_POSTAL_CODE,
       })
     ).toEqual("email@example.com");
