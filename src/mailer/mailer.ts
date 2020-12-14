@@ -26,7 +26,7 @@ export async function sendMail(toAddress: string, options: MessageOptions) {
     from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',
     to: toAddress,
     subject: "Potential water leak",
-    text: "Plaintext version of the message",
+    text: getEmailMessage("overuse", "text", options.day),
     html: getEmailMessage("overuse", "html", options.day),
   });
 }

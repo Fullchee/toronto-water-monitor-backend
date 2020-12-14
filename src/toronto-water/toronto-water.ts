@@ -9,6 +9,7 @@ interface Account {
   lastName: string;
   paymentMethod: number;
   postalCode: string;
+  threshold: number;
 }
 
 interface Day {
@@ -26,7 +27,7 @@ interface Meter {
   [x: string]: any;
 }
 
-export function getRefToken(account: Account): Promise<string> {
+export function getRefToken(account: any): Promise<string> {
   return new Promise(async (resolve, reject) => {
     const validateURL =
       "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/validate";
@@ -35,39 +36,30 @@ export function getRefToken(account: Account): Promise<string> {
       url: validateURL,
       timeout: 4000,
       data: {
-        ACCOUNT_NUMBER: account.accountNumber,
         API_OP: "VALIDATE",
+        ACCOUNT_NUMBER: account.accountNumber,
         LAST_NAME: account.lastName,
         POSTAL_CODE: account.postalCode,
-        LAST_PAYMENT_METHOD: account.paymentMethod,
+        LAST_PAYMENT_METHOD: account.paymentMethod + "",
       },
     });
-    if (res.path! === "/ext/error/something-went-wrong.html") {
-      console.error("Unable to get refToken from toronto.ca!");
-      reject();
-      return;
+    if (res.request.path === "/ext/error/something-went-wrong.html") {
+      console.error("Unable to get refToken from toronto.ca!", account);
+      return reject();
     } else if (!res.data.validateResponse?.refToken) {
+      console.log(res.request);
       console.log(
         "Unable to get refToken from toronto.ca but didn't get redirected"
       );
-      reject();
-      return;
+      return reject();
     }
     resolve(res.data.validateResponse.refToken);
   });
 }
 
-export async function getWaterData() {
-  // TODO: make this function accept dynamic data
-  console.log("Getting water data for: ");
-  const validateBody: Account = {
-    accountNumber: process.env.WATER_ACCOUNT_NUMBER!,
-    email: "fullchee@gmail.com",
-    lastName: process.env.WATER_LAST_NAME!,
-    paymentMethod: parseInt(process.env.WATER_LAST_PAYMENT_METHOD!),
-    postalCode: process.env.WATER_POSTAL_CODE!,
-  };
-  const refToken = await getRefToken(validateBody);
+export async function getWaterData(account: Account) {
+  console.log(`Getting water data for: ${account.email}`);
+  const refToken = await getRefToken(account);
   const miuList = await getMIU(refToken);
   const consumptionURL =
     "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/consumption";
@@ -93,8 +85,7 @@ export async function getWaterData() {
     intervalList.forEach((day: Day) => {
       console.log(day);
       const waterUsed = day.intConsumptionTotal;
-      // TODO: make the 3 dynamic
-      if (waterUsed >= 3) {
+      if (waterUsed >= account.threshold) {
         sendMail("fullchee@gmail.com", { day: day });
       }
     });

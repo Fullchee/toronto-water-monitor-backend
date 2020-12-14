@@ -6,5 +6,6 @@ CREATE TABLE account (
     email VARCHAR(255) NOT NULL,
     lastName varchar(255) NOT NULL,
     paymentMethod int NOT NULL,
-    postalCode VARCHAR(255) NOT NULL
+    postalCode VARCHAR(255) NOT NULL,
+    threshold int DEFAULT 3
 );
