@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 import { getEmailMessage } from "./email-messages";
 require("dotenv").config();
-import { MailOptions } from "./mailTypes";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -12,12 +11,22 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendMail(toAddress: string, data: any) {
+export async function sendWelcomeMail(toAddress: string, data: any) {
   await transporter.sendMail({
     from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',
     to: toAddress,
-    subject: "Potential water leak",
-    text: getEmailMessage(options.type, "text", data),
-    html: getEmailMessage(options.type, "html", data),
+    subject: "Confirm your email (Toronto water monitor)",
+    text: getEmailMessage(data, "text", "welcome"),
+    html: getEmailMessage(data, "html", "welcome"),
+  });
+}
+
+export async function sendOveruseMail(toAddress: string, data: any) {
+  await transporter.sendMail({
+    from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',
+    to: toAddress,
+    subject: "Potential water leak in your home",
+    text: getEmailMessage(data, "text", "overuse"),
+    html: getEmailMessage(data, "html", "overuse"),
   });
 }

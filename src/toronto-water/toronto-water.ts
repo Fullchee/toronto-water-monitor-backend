@@ -1,5 +1,5 @@
 import axios from "axios";
-import { sendMail } from "../mailer/mailer";
+import { sendOveruseMail } from "../mailer/mailer";
 
 require("dotenv").config();
 
@@ -86,7 +86,10 @@ export async function getWaterData(account: Account) {
       console.log(day);
       const waterUsed = day.intConsumptionTotal;
       if (waterUsed >= account.threshold) {
-        sendMail("fullchee@gmail.com", { day: day });
+        sendOveruseMail(account.email, {
+          day: day,
+          email: account.email,
+        });
       }
     });
   });
