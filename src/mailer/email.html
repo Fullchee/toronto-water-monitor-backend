@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    .link-button {
+      background: none;
+      border: none;
+      color: #4285f4;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .link-button:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  Confirm you subscription to monitor your Toronto Water usage.
+  <form
+    method="post"
+    action="https://toronto-water-monitor.herokuapp.com/create-account"
+  >
+    <input type="hidden" name="accountNumber" value="${accountNumber}" />
+    <input type="hidden" name="email" value="${email}" />
+    <input type="hidden" name="lastName" value="${lastName}" />
+    <input type="hidden" name="paymentMethod" value="${paymentMethod}" />
+    <input type="hidden" name="postalCode" value="${postalCode}" />
+    <input type="hidden" name="threshold" value="${threshold}" />
+    <button type="submit" name="" value="">Confirm</button>
+  </form>
+
+  <p>
+    I will never email you for any other purpose other than notifying you of
+    high water usage.
+  </p>
+
+  <p>If you don't want to subscribe, just delete this email :)</p>
+</body>

@@ -19,11 +19,11 @@ export const getAccounts = (): Promise<Account[]> => {
       return resolve(
         result.rows.map((a: any) => {
           return {
-            accountNumber: a.accountnumber,
+            accountNumber: a.account_number,
             email: a.email,
-            lastName: a.lastname,
-            paymentMethod: parseInt(a.paymentmethod),
-            postalCode: a.postalcode,
+            lastName: a.last_name,
+            paymentMethod: parseFloat(a.payment_method),
+            postalCode: a.postal_code,
             threshold: a.threshold,
           };
         })
