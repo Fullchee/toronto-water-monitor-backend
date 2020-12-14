@@ -1,13 +1,5 @@
 import { pool } from "./psql-pool";
-
-interface Account {
-  accountNumber: string;
-  email: string;
-  lastName: string;
-  paymentMethod: number;
-  postalCode: string;
-  threshold: number;
-}
+import { Account } from "../types";
 
 export const getAccounts = (): Promise<Account[]> => {
   return new Promise((resolve, reject) => {
