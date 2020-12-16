@@ -66,7 +66,7 @@ export const createAccount = async (
     // key already exists
     if (error.code === "23505") {
       console.log(error.detail);
-      return "You already added your account.";
+      return "You already added your account. Nothing left to do :)";
     } else {
       console.log("-----------Create Account error: ", error);
       console.log("Error detail: ", error.detail);
