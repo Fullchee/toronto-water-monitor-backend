@@ -1,22 +1,9 @@
 import axios from "axios";
 import { sendOveruseMail } from "../mailer/mailer";
+import { Account, Day } from "../types";
+import { getAccountEmails } from "../psql/db-operations";
 
 require("dotenv").config();
-
-interface Account {
-  accountNumber: string;
-  email: string;
-  lastName: string;
-  paymentMethod: number;
-  postalCode: string;
-  threshold: number;
-}
-
-interface Day {
-  intStartDate: string;
-  intConsumptionTotal: number;
-  [x: string]: any;
-}
 
 interface Premise {
   meterList: Meter[];
@@ -58,7 +45,7 @@ export function getRefToken(account: any): Promise<string> {
 }
 
 export async function getWaterData(account: Account) {
-  console.log(`Getting water data for: ${account.email}`);
+  console.log(`Getting water data for: ${account.accountNumber}`);
   const refToken = await getRefToken(account);
   const miuList = await getMIU(refToken);
   const consumptionURL =
@@ -82,13 +69,16 @@ export async function getWaterData(account: Account) {
         },
       },
     });
-    intervalList.forEach((day: Day) => {
+    intervalList.forEach(async (day: Day) => {
       console.log(day);
       const waterUsed = day.intConsumptionTotal;
       if (waterUsed >= account.threshold) {
-        sendOveruseMail(account.email, {
-          day: day,
-          email: account.email,
+        const emails = await getAccountEmails(account.accountNumber);
+        emails.forEach((email) => {
+          sendOveruseMail(email, {
+            day: day,
+            email: email,
+          });
         });
       }
     });

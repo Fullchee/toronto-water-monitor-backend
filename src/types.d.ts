@@ -6,7 +6,6 @@ export interface Day {
 
 export interface Account {
   accountNumber: string;
-  email: string;
   lastName: string;
   paymentMethod: number;
   postalCode: string;

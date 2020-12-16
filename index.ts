@@ -24,9 +24,22 @@ app.post("/create-account", async (req, res) => {
       .send("Unable to get ref token. Check that it works at MyWaterToronto.");
     return;
   }
-  createAccount(req.body)
-    .then(() => {
-      res.status(201).send("Account successfully created!");
+  createAccount(
+    {
+      lastName: req.body.lastName,
+      accountNumber: req.body.accountNumber,
+      paymentMethod: req.body.paymentMethod,
+      postalCode: req.body.postalCode,
+      threshold: req.body.threshold || 3,
+    },
+    req.body.email
+  )
+    .then((message) => {
+      if (message === "Account successfully created!") {
+        res.status(201).send(message);
+      } else {
+        res.status(500).send(message);
+      }
     })
     .catch((err) => {
       res.status(500).send(err);
