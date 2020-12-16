@@ -6,6 +6,7 @@ export const getAccounts = async (): Promise<Account[]> => {
     const result = await pool.query(
       "SELECT * FROM account INNER JOIN email ON account.email_id=email.id"
     );
+    console.log(result);
     return result.rows.map((a: any) => {
       return {
         accountNumber: a.account_number,
@@ -40,10 +41,19 @@ export const getAccountEmails = async (
     return [];
   }
 };
+
 export const createAccount = async (
   { accountNumber, lastName, paymentMethod, postalCode, threshold }: Account,
   email: string
 ): Promise<string> => {
+  console.log({
+    accountNumber,
+    lastName,
+    paymentMethod,
+    postalCode,
+    threshold,
+  });
+
   try {
     await pool.query(
       `INSERT INTO account (account_number, last_name, payment_method, postal_code, threshold) 

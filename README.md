@@ -1,5 +1,13 @@
 # toronto-water-monitor-backend
 
+## Tests
+
+They need to be run while the server is running
+
+```sh
+jest
+```
+
 ## Todos
 
 - emailer
