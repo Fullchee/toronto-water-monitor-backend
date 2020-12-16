@@ -78,28 +78,30 @@ export const createAccount = async (
 export const deleteAccount = async (email: string): Promise<string> => {
   try {
     const result = await pool.query(
-      `DELETE FROM email 
+      `DELETE FROM account_email 
       WHERE email = $1
-      RETURNING accountNumber`,
+      RETURNING account_number`,
       [email]
     );
     if (result.rowCount === 0) {
-      return "Your email isn't in the database :)";
+      return "Your email isn't in the database. Nothing left to do :)";
     }
-    console.log(result);
-    for (const [accountNumber] of result.rows) {
+    for (const { accountNumber } of result.rows) {
       await pool.query(
         `DELETE FROM account
         WHERE NOT EXISTS (
           SELECT *
-          FROM email
+          FROM account_email
           WHERE account_number=$1
-        )`
+        )`,
+        [accountNumber]
       );
     }
-    return email;
+    return "Account successfully deleted";
   } catch (error) {
     console.error(error);
-    return "Wasn't able to remove your email from the database. Create a new issue here: https://github.com/Fullchee/toronto-water-monitor-backend/issues";
+    throw new Error(
+      "Wasn't able to remove your email from the database. Create a new issue here: https://github.com/Fullchee/toronto-water-monitor-backend/issues"
+    );
   }
 };

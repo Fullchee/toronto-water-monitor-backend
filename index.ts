@@ -49,9 +49,10 @@ app.post("/create-account", async (req, res) => {
 app.post("/delete-account", async (req, res) => {
   const { email } = req.body;
   try {
-    await deleteAccount(email);
-    res.status(200).send("Account successfully deleted");
-  } catch (err) {
-    res.status(400).send(err);
+    const message = await deleteAccount(email);
+    res.status(200).send(message);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
   }
 });
