@@ -15,4 +15,5 @@ jest
 - redirect the home page to the react front end
 - testing
   - how to use .env in postman tests?
-- psql: 
+- psql: investigate why the db tests hang
+  - it should be okay, pool.query shouldn't need to close it

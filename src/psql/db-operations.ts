@@ -4,7 +4,7 @@ import { Account } from "../types";
 export const getAccounts = async (): Promise<Account[]> => {
   try {
     const result = await pool.query(
-      `SELECT * 
+      `SELECT *
       FROM account INNER JOIN account_email 
       ON account.account_number=account_email.account_number`
     );
@@ -18,8 +18,8 @@ export const getAccounts = async (): Promise<Account[]> => {
       };
     });
   } catch (error) {
-    console.log(error.detail);
-    console.log("Couldn't select from the database.");
+    console.error(error.detail);
+    console.error("Couldn't select from the database.");
     return error;
   }
 };
@@ -34,11 +34,10 @@ export const getAccountEmails = async (
       WHERE account_number=$1`,
       [accountNumber]
     );
-    console.log("--------Emails:", result);
-    return result.rows;
+    return result.rows.map((row) => row.email);
   } catch (error) {
     console.error("Couldn't get the account emails");
-    console.log(error);
+    console.error(error);
     return [];
   }
 };

@@ -36,4 +36,23 @@ describe("db operations tests", () => {
     expect(oneResult.length).toBe(1);
     expect(oneResult[0].lastName).toBe("lastName");
   });
+
+  test("getAccountEmails", async () => {
+    const emptyResult = await getAccountEmails("000000000-000000000-00");
+    expect(emptyResult.length).toBe(0);
+
+    await createAccount(
+      {
+        accountNumber: "000000000-000000000-00",
+        lastName: "lastName",
+        paymentMethod: 4,
+        postalCode: "M1M 1M1",
+        threshold: 3,
+      },
+      "email@email.com"
+    );
+    const oneResult = await getAccountEmails("000000000-000000000-00");
+    expect(oneResult.length).toBe(1);
+    expect(oneResult[0]).toBe("email@email.com");
+  });
 });
