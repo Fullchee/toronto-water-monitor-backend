@@ -3,19 +3,6 @@
     a {
       color: #4285f4;
     }
-    .link-button {
-      background: none;
-      border: none;
-      color: #4285f4;
-      cursor: pointer;
-      font-size: 1em;
-      padding-left: 0;
-      padding-top: 20px;
-    }
-    .link-button:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
@@ -33,12 +20,6 @@
     You're getting this email because you signed up to get high water usage
     email alerts.
   </p>
-  <form
-    method="post"
-    action="https://toronto-water-monitor.herokuapp.com/delete-account"
-  >
-    <button type="submit" name="email" value="${email}" class="link-button">
-      Unsubscribe
-    </button>
-  </form>
+
+  <p><a href="https://toronto-water-monitor.herokuapp.com/verify?jwt=${jwt}" class=>Unsubscribe</a></p>
 </body>
