@@ -2,10 +2,21 @@
 <head>
   <style>
     .confirm-button {
-      padding: 1em 1.5em;
+      padding: 1em 2em;
       background-color: #4285f4;
       cursor: pointer;
       font-size: 1em;
+      color: white;
+      border-radius: 6px;
+      outline: none;
+      border: none;
+    }
+
+    .confirm-button:hover {
+      background-color: #5493f9;
+    }
+    .confirm-button:active {
+      background-color: #7aaaf9;
     }
   </style>
 </head>
@@ -13,9 +24,13 @@
 <body>
   Confirm you subscription to monitor your Toronto Water usage.
 
-  <a href="https://toronto-water-monitor.herokuapp.com/verify?jwt=${jwt}"
-    ><button class="confirm-button">Confirm</button></a
-  >
+  <p>
+    <a
+      style="cursor: pointer"
+      href="https://toronto-water-monitor.herokuapp.com/verify?jwt=${jwt}"
+      ><button class="confirm-button">Confirm</button></a
+    >
+  </p>
 
   <p>
     I will never email you for any other purpose other than notifying you of

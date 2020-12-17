@@ -1,13 +1,7 @@
 import { JSDOM } from "jsdom";
-import { Account, EmailData } from "../types";
+import { EmailData } from "../types";
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import {} from "jsonwebtoken";
-
-// TODO: learn TypeScript predicates and advanced union types, make changes in mailer.ts too!
-const createJwt = (account: Account, email: string) => {
-  return "";
-};
 
 export function getEmailMessage(
   data: EmailData,
@@ -19,7 +13,7 @@ export function getEmailMessage(
       return readFileSync(
         resolve(__dirname, "welcomeEmail.html"),
         "utf8"
-      ).replace("${jwt}", createJwt(data.account!, data.email));
+      ).replace("${jwt}", data.jwt || "no-jwt");
     },
 
     overuse: () => {
