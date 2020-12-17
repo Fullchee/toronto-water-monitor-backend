@@ -9,6 +9,10 @@ function clearDatabase() {
   execSync(`psql toronto_water_monitor -c "TRUNCATE account_email, account;" `);
 }
 
+function areArraysEqual(array1: any[], array2: any[]) {
+  return array1.sort().join(",") === array2.sort().join(",");
+}
+
 describe("db operations tests", () => {
   beforeAll(() => {
     initializeDatabase();
@@ -54,5 +58,22 @@ describe("db operations tests", () => {
     const oneResult = await getAccountEmails("000000000-000000000-00");
     expect(oneResult.length).toBe(1);
     expect(oneResult[0]).toBe("email@email.com");
+
+    await createAccount(
+      {
+        accountNumber: "000000000-000000000-00",
+        lastName: "lastName",
+        paymentMethod: 4,
+        postalCode: "M1M 1M1",
+        threshold: 3,
+      },
+      "email2@email.com"
+    );
+
+    const twoEmails = await getAccountEmails("000000000-000000000-00");
+    expect(twoEmails.length).toBe(2);
+    expect(
+      areArraysEqual(twoEmails, ["email@email.com", "email2@email.com"])
+    ).toBe(true);
   });
 });

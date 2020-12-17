@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { getEmailMessage } from "./email-messages";
+import { EmailData } from "../types";
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
@@ -11,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendWelcomeMail(toAddress: string, data: any) {
+export async function sendWelcomeMail(toAddress: string, data: EmailData) {
   transporter
     .sendMail({
       from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',

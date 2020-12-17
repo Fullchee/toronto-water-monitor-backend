@@ -11,3 +11,9 @@ export interface Account {
   postalCode: string;
   threshold: number;
 }
+
+export interface EmailData {
+  email: string;
+  account?: Account;
+  day?: Day;
+}
