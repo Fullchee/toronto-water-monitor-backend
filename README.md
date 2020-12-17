@@ -15,3 +15,4 @@ jest
 - redirect the home page to the react front end
 - testing
   - how to use .env in postman tests?
+- psql: 

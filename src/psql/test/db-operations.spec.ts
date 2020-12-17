@@ -20,9 +20,9 @@ describe("db operations tests", () => {
 
   test("getAccounts", async () => {
     const emptyResult = await getAccounts();
-    expect(emptyResult).toBe(undefined);
+    expect(emptyResult.length).toBe(0);
 
-    createAccount(
+    await createAccount(
       {
         accountNumber: "000000000-000000000-00",
         lastName: "lastName",
@@ -32,6 +32,8 @@ describe("db operations tests", () => {
       },
       "email@email.com"
     );
-    // console.log("results");
+    const oneResult = await getAccounts();
+    expect(oneResult.length).toBe(1);
+    expect(oneResult[0].lastName).toBe("lastName");
   });
 });
