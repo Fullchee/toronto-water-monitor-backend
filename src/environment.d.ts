@@ -12,6 +12,8 @@ declare global {
 
       JWT_SECRET: string;
 
+      NODE_ENV: "production" | "development";
+
       WATER_ACCOUNT_NUMBER: string;
       WATER_LAST_NAME: string;
       WATER_POSTAL_CODE: string;

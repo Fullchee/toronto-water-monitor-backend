@@ -3,6 +3,7 @@ import cors from "cors";
 import { createAccount, deleteAccount } from "./src/psql/db-operations";
 import { getRefToken } from "./src/toronto-water/toronto-water";
 import { verify } from "jsonwebtoken";
+import { resolve } from "path";
 
 const PORT = process.env.PORT || 8000;
 
@@ -11,19 +12,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+const domain =
+  process.env.NODE_ENV === "production"
+    ? "https://toronto-water-monitor.herokuapp.com"
+    : "localhost";
+
 app.get("/", (req, res) => res.send("Express + TypeScript Server"));
 app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
+  console.log(`⚡️[server]: Server is running at ${domain}:${PORT}`);
 });
 
 app.get("/verify", (req, res) => {
   try {
-    const decoded = verify(
+    const decodedJwt = verify(
       req.query.jwt as string,
       process.env.JWT_SECRET as string
     );
-    // TODO: send a web page that will send a post request
-    res.status(200).send("Authenticated token!");
+    res.render("createAccount", { decodedJwt });
+
+    res.redirect(307, "/create-account");
+    // res.status(200).send("Authenticated token!");
+    // res.status(200).sendFile("createAccount.html");
   } catch (error) {
     console.error("Invalid JWT");
     if (error.name === "TokenExpiredError") {
@@ -69,7 +78,11 @@ app.post("/create-account", async (req, res) => {
     });
 });
 
-app.post("/delete-account", async (req, res) => {
+app.get("/unsubscribe", (req, res) => {
+  res.status(200).sendFile(resolve(__dirname, "views", "unsubscribe.html"));
+});
+
+app.post("/unsubscribe", async (req, res) => {
   const { email } = req.body;
   try {
     const message = await deleteAccount(email);
