@@ -1,12 +1,21 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      DB_USER: string;
+      DB_PASSWORD: string;
+      DB_HOST: string;
+      DB_PORT: string;
+      DB_DATABASE: string;
+
+      GMAIL_EMAIL: string;
+      GMAIL_PASS: string;
+
+      JWT_SECRET: string;
+
       WATER_ACCOUNT_NUMBER: string;
       WATER_LAST_NAME: string;
       WATER_POSTAL_CODE: string;
       WATER_LAST_PAYMENT_METHOD: string;
-
-      SENDGRID_API_KEY: string;
     }
   }
 }
