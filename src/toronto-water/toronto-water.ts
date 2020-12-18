@@ -75,10 +75,7 @@ export async function getWaterData(account: Account) {
       if (waterUsed >= account.threshold) {
         const emails = await getAccountEmails(account.accountNumber);
         emails.forEach((email) => {
-          sendOveruseMail(email, {
-            day: day,
-            email: email,
-          });
+          sendOveruseMail(email, day);
         });
       }
     });
