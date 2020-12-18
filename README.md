@@ -8,8 +8,6 @@ The city of Toronto built a great tool called MyWaterToronto where you can looku
 
 Surprisingly, the city of Toronto doesn't alert you of high usage so I built this tool.
 
-
-
 ## Tests
 
 They need to be run while the server is running
@@ -20,8 +18,6 @@ jest
 
 ## Todos
 
-- emailer
-  - JWT instead of the two hidden forms
 - redirect the home page to the react front end
 - testing
   - how to use .env in postman tests?
@@ -49,3 +45,10 @@ However, Gmail triggered a security warning when I opened the link and considere
 I looked at how Mailchimp does it and it just makes a regular GET request with a couple of IDs.
 
 I'm here to learn so I decided to use JWTs! They're URL safe and it's fun to learn!
+
+It turns out thata Mailchimp just does something weird.
+
+They make a GET request which redirects to make a POST request. I decided that doing this wasn't the right thing to do because of the GET specification.
+
+Mailchimp probably does something complex on the backend because having a GET request make a change to the database isn't right according to the GET spec. Browsers will click and prefetch links.
+However, I don't want to add that complexity of whatever Mailchimp does so I'm going to keep it simple.
