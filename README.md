@@ -23,6 +23,7 @@ jest
   - how to use .env in postman tests?
 - psql: investigate why the db tests hang
   - it should be okay, pool.query shouldn't need to close it
+- check the gmail for "Address not sent" emails and delete them from the database
 
 Notes
 

@@ -11,6 +11,12 @@
           Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       }
 
+      .title {
+        padding-left: 5rem;
+        font-weight: normal;
+        font-size: 1.25rem;
+      }
+
       form {
         display: flex;
         flex-direction: column;
@@ -26,6 +32,7 @@
       .form-input {
         height: 2rem;
         font-size: 1rem;
+        border: 2px solid #ccc;
       }
       .form-input:invalid {
         background-color: #ffcccb;
@@ -33,6 +40,14 @@
 
       .button {
         padding: 0.5em 1em;
+        border: none;
+        background-image: linear-gradient(125deg, #e21893, #8753c6);
+        border-radius: 5px;
+        color: white;
+        letter-spacing: 1px;
+      }
+      .button:hover {
+        cursor: pointer;
       }
     </style>
     <script defer>
@@ -79,10 +94,16 @@
     </script>
   </head>
   <body>
+    <h3 class="title">Unsubscribe from Toronto water monitor</h3>
     <form action="/unsubscribe" method="post">
       <label for="email">Email</label>
       <input id="email" class="form-input" type="email" />
-      <input id="unsubscribe" class="button" type="submit" />
+      <input
+        id="unsubscribe"
+        class="button"
+        type="submit"
+        value="Unsubscribe"
+      />
     </form>
   </body>
 </html>

@@ -1,9 +1,9 @@
 import nodemailer from "nodemailer";
 import { getEmailMessage } from "./email-messages";
-import { EmailData } from "../types";
+import { Day } from "../types";
+import { deleteAccount } from "../psql/db-operations";
+
 require("dotenv").config();
-import { sign } from "jsonwebtoken";
-import { Account } from "../types";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -14,47 +14,33 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-function generateAccessToken(account: Account, email: string) {
-  // expires after half and hour (1800 seconds = 30 minutes)
-  return sign(
+export async function sendWelcomeMail(toAddress: string) {
+  transporter.sendMail(
     {
-      account,
-      email,
-    },
-    process.env.JWT_SECRET!,
-    { expiresIn: "1800s" }
-  );
-}
-
-export async function sendWelcomeMail(
-  toAddress: string,
-  { account, email }: { account: Account; email: string }
-) {
-  const jwt = generateAccessToken(account, email);
-  transporter
-    .sendMail({
       from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',
       to: toAddress,
       subject: "Confirm your email (Toronto water monitor)",
-      text: getEmailMessage({ email, jwt }, "text", "welcome"),
-      html: getEmailMessage({ email, jwt }, "html", "welcome"),
-    })
-    .then((res) => {
+      text: getEmailMessage({}, "text", "welcome"),
+      html: getEmailMessage({}, "html", "welcome"),
+    },
+    async (error, info) => {
+      if (error) {
+        console.error(error);
+      }
+      console.log(info);
       console.log("Sent email to " + toAddress);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    }
+  );
 }
 
-export async function sendOveruseMail(toAddress: string, data: any) {
+export async function sendOveruseMail(toAddress: string, day: Day) {
   transporter
     .sendMail({
       from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',
       to: toAddress,
       subject: "Potential water leak in your home",
-      text: getEmailMessage(data, "text", "overuse"),
-      html: getEmailMessage(data, "html", "overuse"),
+      text: getEmailMessage({ day }, "text", "overuse"),
+      html: getEmailMessage({ day }, "html", "overuse"),
     })
     .then((res) => {
       console.log("Sent email to " + toAddress);

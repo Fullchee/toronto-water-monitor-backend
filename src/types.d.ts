@@ -14,6 +14,5 @@ export interface Account {
 
 export interface EmailData {
   email: string;
-  jwt?: string;
   day?: Day;
 }
