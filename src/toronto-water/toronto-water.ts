@@ -14,10 +14,10 @@ interface Meter {
   [x: string]: any;
 }
 
-export function getRefToken(account: any): Promise<string> {
-  return new Promise(async (resolve, reject) => {
-    const validateURL =
-      "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/validate";
+export async function getRefToken(account: any): Promise<string> {
+  const validateURL =
+    "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/validate";
+  try {
     const res: any = await axios({
       method: "post",
       url: validateURL,
@@ -32,21 +32,27 @@ export function getRefToken(account: any): Promise<string> {
     });
     if (res.request.path === "/ext/error/something-went-wrong.html") {
       console.error("Unable to get refToken from toronto.ca!", account);
-      return reject();
+      return "";
     } else if (!res.data.validateResponse?.refToken) {
       console.log(res.request);
       console.log(
         "Unable to get refToken from toronto.ca but didn't get redirected"
       );
-      return reject();
+      return "";
     }
-    resolve(res.data.validateResponse.refToken);
-  });
+    return res.data.validateResponse.refToken;
+  } catch (error) {
+    console.log(error);
+    return "";
+  }
 }
 
 export async function getWaterData(account: Account) {
   console.log(`Getting water data for: ${account.accountNumber}`);
   const refToken = await getRefToken(account);
+  if (!refToken) {
+    console.log("Unable to get ref token.");
+  }
   const miuList = await getMIU(refToken);
   const consumptionURL =
     "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/consumption";

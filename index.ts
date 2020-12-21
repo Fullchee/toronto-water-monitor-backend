@@ -23,12 +23,20 @@ app.listen(PORT, () => {
 
 app.post("/create-account", async (req, res) => {
   try {
-    await getRefToken(req.body);
+    const refToken = await getRefToken(req.body);
+
+    console.log(req.body);
+    if (!refToken) {
+      return res
+        .status(500)
+        .send(
+          "Unable to get ref token. Check that it works at MyWaterToronto."
+        );
+    }
   } catch (err) {
-    res
+    return res
       .status(500)
       .send("Unable to get ref token. Check that it works at MyWaterToronto.");
-    return;
   }
   createAccount(
     {
@@ -43,6 +51,10 @@ app.post("/create-account", async (req, res) => {
     .then((message) => {
       if (message === "Account successfully created!") {
         res.status(201).send(message);
+      } else if (
+        message === "You already added your account. Nothing left to do :)"
+      ) {
+        res.status(409).send(message);
       } else {
         res.status(500).send(message);
       }
