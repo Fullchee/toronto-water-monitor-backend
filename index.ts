@@ -1,4 +1,4 @@
-import express, { NextFunction } from "express";
+import express from "express";
 import cors from "cors";
 import { createAccount, deleteAccount } from "./src/psql/db-operations";
 import { getRefToken } from "./src/toronto-water/toronto-water";

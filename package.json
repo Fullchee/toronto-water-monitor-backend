@@ -13,7 +13,8 @@
     "//": "heroku does npm install",
     "postinstall": "npm run build-ts",
     "watch-node": "nodemon build/index.js",
-    "watch-ts": "tsc -w"
+    "watch-ts": "tsc -w",
+    "reset-db": "psql toronto_water_monitor -f init.sql"
   },
   "author": "Fullchee Zhang <fullchee@gmail.com>",
   "license": "MIT",

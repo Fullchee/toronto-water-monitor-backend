@@ -55,8 +55,6 @@
         "DOMContentLoaded",
         function () {
           var emailInput = document.getElementById("email");
-          console.log(emailInput);
-
           emailInput.addEventListener("blur", function (event) {
             if (isEmailValid(emailInput.value)) {
               emailInput.setCustomValidity("");

@@ -76,7 +76,6 @@ export async function getWaterData(account: Account) {
       },
     });
     intervalList.forEach(async (day: Day) => {
-      console.log(day);
       const waterUsed = day.intConsumptionTotal;
       if (waterUsed >= account.threshold) {
         const emails = await getAccountEmails(account.accountNumber);
