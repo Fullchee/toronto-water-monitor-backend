@@ -19,6 +19,7 @@ jest
 ## Todos
 
 - redirect the home page to the react front end
+- unsubscribe: /unsubscribe doesn't seem to work
 - unsubscribe: add the email as a search param and pre-populate the form with the user's email
 - testing
   - how to use .env in postman tests?
