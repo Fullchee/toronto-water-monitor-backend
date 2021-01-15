@@ -16,7 +16,7 @@ export function getEmailMessage(
     overuse: () => {
       return readFileSync(resolve(__dirname, "overuseEmail.html"), "utf8")
         .replace("${usage}", data.day!.intConsumptionTotal + "")
-        .replace("${date}", data.day!.intStartDate);
+        .replace("${date}", data.day!.intStartDate.toLocaleStringDate());
     },
   };
 

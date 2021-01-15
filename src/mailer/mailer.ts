@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 export async function sendWelcomeMail(toAddress: string) {
   transporter.sendMail(
     {
-      from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',
+      from: '"Toronto water monitor" <toronto.water.monitor@gmail.com>',
       to: toAddress,
       subject: "Confirm your email (Toronto water monitor)",
       text: getEmailMessage({}, "text", "welcome"),
@@ -36,7 +36,7 @@ export async function sendWelcomeMail(toAddress: string) {
 export async function sendOveruseMail(toAddress: string, day: Day) {
   transporter
     .sendMail({
-      from: '"Fullchee Zhang" <toronto.water.monitor@gmail.com>',
+      from: '"Toronto water monitor" <toronto.water.monitor@gmail.com>',
       to: toAddress,
       subject: "Potential water leak in your home",
       text: getEmailMessage({ day }, "text", "overuse"),

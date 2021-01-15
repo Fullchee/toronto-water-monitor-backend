@@ -28,7 +28,7 @@ app.post("/create-account", async (req, res) => {
     console.log(req.body);
     if (!refToken) {
       return res
-        .status(500)
+        .status(400)
         .send(
           "Unable to get ref token. Check that it works at MyWaterToronto."
         );
