@@ -1,5 +1,14 @@
 # toronto-water-monitor-backend
 
+https://toronto-water-monitor.netlify.app/
+
+Get an email notification when your water usage is too high!
+
+## Code
+
+- Front-end: https://github.com/Fullchee/toronto-water-monitor-frontend
+- Back-end: https://github.com/Fullchee/toronto-water-monitor-backend
+
 ## Why
 
 A family member got a high water bill from a leaky toilet they didn't notice.
@@ -26,3 +35,5 @@ jest
 - psql: investigate why the db tests hang
   - it should be okay, pool.query shouldn't need to close it
 - check the gmail for "Address not sent" emails and delete them from the database
+- Swagger Fu document a rest api?
+- Is heroku data safe? (psql)
