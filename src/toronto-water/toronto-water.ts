@@ -53,7 +53,7 @@ export async function getWaterData(account: Account) {
   if (!refToken) {
     console.log("Unable to get ref token.");
   }
-  const miuList = await getMIU(refToken);
+  const miuList = await getMIU(refToken, account.accountNumber);
   const consumptionURL =
     "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/consumption";
 
@@ -67,7 +67,7 @@ export async function getWaterData(account: Account) {
         refToken,
         json: {
           API_OP: "CONSUMPTION",
-          ACCOUNT_NUMBER: process.env.WATER_ACCOUNT_NUMBER,
+          ACCOUNT_NUMBER: account.accountNumber,
           MIU_ID: miu,
           START_DATE: formatDate(daysAgo(8)),
           END_DATE: formatDate(daysAgo(8)),
@@ -90,7 +90,10 @@ export async function getWaterData(account: Account) {
 /**
  * @return {string[]} array of MIU
  */
-async function getMIU(refToken: string): Promise<string[]> {
+async function getMIU(
+  refToken: string,
+  accountNumber: string
+): Promise<string[]> {
   const accountDetailsURL =
     "https://secure.toronto.ca/cc_api/svcaccount_v1/WaterAccount/accountdetails";
   const {

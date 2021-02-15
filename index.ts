@@ -25,7 +25,6 @@ app.post("/create-account", async (req, res) => {
   try {
     const refToken = await getRefToken(req.body);
 
-    console.log(req.body);
     if (!refToken) {
       return res
         .status(400)

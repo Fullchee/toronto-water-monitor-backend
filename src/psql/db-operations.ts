@@ -60,7 +60,7 @@ export const createAccount = async (
     );
 
     if (result.rowCount === 0) {
-      return "You've already signed up. :)";
+      return "You've already signed up :)";
     }
 
     return "Account successfully created!";

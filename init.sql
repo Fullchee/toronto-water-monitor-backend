@@ -1,7 +1,12 @@
+DROP DATABASE toronto_water_monitor;
 DROP TABLE IF EXISTS account_email;
 DROP TABLE IF EXISTS account;
 
 -- one account to many emails
+
+CREATE DATABASE toronto_water_monitor;
+
+CONNECT TO toronto_water_monitor;
 
 CREATE TABLE account (
     account_number VARCHAR(30) PRIMARY KEY,
